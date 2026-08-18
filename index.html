@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYANN SCRIPT HUB</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#050505;
+    color:white;
+    overflow:hidden;
+    position:relative;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        linear-gradient(#ffffff08 1px,transparent 1px),
+        linear-gradient(90deg,#ffffff08 1px,transparent 1px);
+    background-size:40px 40px;
+    mask-image:linear-gradient(to bottom,transparent,#000,transparent);
+    pointer-events:none;
+}
+
+.floating-n{
+    position:fixed;
+    font-weight:900;
+    color:#000;
+    pointer-events:none;
+    z-index:1;
+    opacity:.3;
+    user-select:none;
+    animation:floatN linear infinite;
+}
+
+@keyframes floatN{
+    0%{
+        transform:translateY(100vh) rotate(0deg) scale(.8);
+        opacity:.1;
+    }
+
+    10%{
+        opacity:.3;
+    }
+
+    90%{
+        opacity:.3;
+    }
+
+    100%{
+        transform:translateY(-10vh) rotate(720deg) scale(1.2);
+        opacity:0;
+    }
+}
+
+.card{
+    position:relative;
+    width:90%;
+    max-width:620px;
+    background:#0b0b0b;
+    border:1px solid #333;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:
+        0 0 0 1px #ffffff08,
+        0 0 40px #000;
+    z-index:2;
+}
+
+.topbar{
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 16px;
+    border-bottom:1px solid #292929;
+    background:#101010;
+}
+
+.dots{
+    display:flex;
+    gap:6px;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#555;
+}
+
+.status{
+    color:#777;
+    font-family:monospace;
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+.logo-area{
+    height:260px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    background:
+        radial-gradient(
+            circle,
+            #202020 0%,
+            #090909 55%,
+            #050505 100%
+        );
+}
+
+.logo-area::before{
+    content:"";
+    position:absolute;
+    width:190px;
+    height:190px;
+    border:1px solid #444;
+    transform:rotate(45deg);
+    opacity:.4;
+}
+
+.logo-area::after{
+    content:"N";
+    position:absolute;
+    font-size:230px;
+    font-weight:900;
+    color:#ffffff03;
+}
+
+.logo{
+    position:relative;
+    z-index:2;
+    font-size:130px;
+    font-weight:900;
+    letter-spacing:-15px;
+    color:white;
+    text-shadow:
+        4px 0 #555,
+        -4px 0 #222;
+}
+
+.content{
+    padding:22px;
+}
+
+.title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.title h1{
+    font-size:22px;
+    letter-spacing:1px;
+}
+
+.version{
+    font-size:10px;
+    color:#888;
+    border:1px solid #444;
+    padding:5px 8px;
+    border-radius:5px;
+}
+
+.description{
+    color:#777;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.get-key{
+    width:100%;
+    margin-bottom:15px;
+    padding:14px;
+    border:1px solid #555;
+    border-radius:9px;
+    background:#151515;
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    letter-spacing:1px;
+    transition:.2s;
+}
+
+.get-key:hover{
+    background:white;
+    color:black;
+}
+
+.get-key:active{
+    transform:scale(.98);
+}
+
+.key-box{
+    display:none;
+    margin-bottom:15px;
+}
+
+.key-title{
+    color:#888;
+    font-family:monospace;
+    font-size:11px;
+    margin-bottom:8px;
+}
+
+.key-display{
+    display:flex;
+    gap:10px;
+}
+
+.key-text{
+    flex:1;
+    min-width:0;
+    padding:13px;
+    background:#050505;
+    color:#7ee787;
+    border:1px solid #333;
+    border-radius:9px;
+    font-family:monospace;
+    font-size:12px;
+    word-break:break-all;
+    user-select:text;
+}
+
+.copy-key{
+    padding:13px 16px;
+    border:1px solid #555;
+    border-radius:9px;
+    background:#151515;
+    color:white;
+    cursor:pointer;
+    font-size:12px;
+    white-space:nowrap;
+    transition:.2s;
+}
+
+.copy-key:hover{
+    background:white;
+    color:black;
+}
+
+.copy-key:active{
+    transform:scale(.97);
+}
+
+.footer{
+    padding:0 22px 18px;
+    color:#555;
+    font-family:monospace;
+    font-size:10px;
+}
+
+#toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:
+        translateX(-50%)
+        translateY(80px);
+
+    background:#151515;
+    border:1px solid #555;
+    color:white;
+
+    padding:13px 20px;
+
+    border-radius:10px;
+
+    font-family:monospace;
+    font-size:13px;
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:.25s;
+
+    z-index:9999;
+}
+
+#toast.show{
+    transform:
+        translateX(-50%)
+        translateY(0);
+
+    opacity:1;
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:15px;
+        overflow:auto;
+    }
+
+    .card{
+        width:100%;
+    }
+
+    .logo-area{
+        height:220px;
+    }
+
+    .logo{
+        font-size:110px;
+    }
+
+    .title h1{
+        font-size:17px;
+    }
+
+    .key-display{
+        flex-direction:column;
+    }
+
+    .copy-key{
+        width:100%;
+    }
+
+    .status{
+        font-size:8px;
+        letter-spacing:1px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="topbar">
+
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="status">
+            NYANN_OS // KEY ONLINE
+        </div>
+
+    </div>
+
+
+    <div class="logo-area">
+
+        <div class="logo">
+            N
+        </div>
+
+    </div>
+
+
+    <div class="content">
+
+        <div class="title">
+
+            <h1>
+                NYANN OS
+            </h1>
+
+            <div class="version">
+                5 DAYS
+            </div>
+
+        </div>
+
+
+        <p class="description">
+            ▸ by real _@nyann
+        </p>
+
+
+        <button
+            class="get-key"
+            id="getKeyButton"
+            type="button"
+        >
+            GET KEY
+        </button>
+
+
+        <div
+            class="key-box"
+            id="keyBox"
+        >
+
+            <div class="key-title">
+                ▸ YOUR KEY
+            </div>
+
+
+            <div class="key-display">
+
+                <div
+                    class="key-text"
+                    id="keyText"
+                ></div>
+
+
+                <button
+                    class="copy-key"
+                    id="copyKeyButton"
+                    type="button"
+                >
+                    COPY KEY
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        root@nyann:~$ system_status --online
+    </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* ==================================================
+   101 KEYS
+================================================== */
+
+const Keys = [
+
+"NYANN-SAG5R2Y5-EQTJDD5V-X7GB9CUZ-KSVHPRVP",
+"NYANN-AMUX7BSK-BPRHKAHQ-6G9FZCTR-EN9CVNCB",
+"NYANN-YDPFH26H-L7PXDR57-CXNUDNBE-FXD4G6NB",
+"NYANN-TBMQZGAK-WNVBZ8BH-CVQ5X7LJ-HNNACBT6",
+"NYANN-HZBEXVQB-PTATTM8A-SQR8YZG8-8TT989A3",
+"NYANN-892MXBW7-DPBE4GQC-VGB4WT2G-7BP649WU",
+"NYANN-YYSUHGXP-XB5SV4XJ-48ZN46VH-W46NZTHT",
+"NYANN-B52Z3337-T2JFJDM5-T8ABKS4P-QLC4JS6Y",
+"NYANN-PLAR6HQF-A6XH29HQ-4ZHSSH97-VS34HSA2",
+"NYANN-U98JDDCN-CHTE29R3-HZSYS9KW-BGNF8AGM",
+
+"NYANN-LEHGDV8F-RT3NKNTG-UDUCX9Y6-26GUWS7Q",
+"NYANN-ZK94DEFZ-KRGE7UT4-URHY9DDS-D5WK7J8S",
+"NYANN-3RSS2KDJ-FWK9PSFN-A73AKZ56-87RUP9Z7",
+"NYANN-EYJU78K5-UYMCHASN-ZGJSEQ74-MR4EMUAR",
+"NYANN-KD3WYR85-BW9TVXDH-UPJ53SDZ-7L9KQP8N",
+"NYANN-QHLGNDHH-5V8BNAES-ZM7Y2PQS-SAHJVULJ",
+"NYANN-3H6WVWWK-B6A23ASM-R756LFR2-9F8F96PU",
+"NYANN-S8ECF3KB-D5AQSDLB-S3UHXAKP-MNSMQ5V5",
+"NYANN-8MJXL2XZ-MKDF6FT7-VW3REM4D-MTTK77SE",
+"NYANN-J9GF2RGL-3GDLUS4X-Q8WAKLRZ-4DK5J3VH",
+
+"NYANN-PPSFZNMS-G4EBF95K-R5TAYSUJ-DLQGHPZ2",
+"NYANN-LG42S2YX-2RGBSKSN-BV6EBRX6-LB6TMN9H",
+"NYANN-858HZN6W-UW5L4H79-ZU2YMRZY-TPGNGNGU",
+"NYANN-RGG8UYHJ-Z59U2TB6-4T5QK3Y9-AZFRZMFQ",
+"NYANN-AMM4VGT9-PM2J9MMS-EWFY5BY8-CU7KFXRT",
+"NYANN-5GHCZCGD-C6HZH4PG-AHA88ADA-UZ2GG36P",
+"NYANN-DXTX2KHZ-5ELQKBQR-EDUSQBL5-VJK82Q3S",
+"NYANN-LCTAH938-7BYVVU2P-TDPMEHGH-MHSBBC2N",
+"NYANN-2VLNEB5S-7J3B7L4D-3R9KSWGQ-7PCJWMTG",
+"NYANN-Q82KAXRK-R6TVDJF5-YNPKTXNU-9MKBZSHM",
+
+"NYANN-6KPDLK25-MQVNBHPY-L7RFRUA9-M6TGAY5W",
+"NYANN-AXWJB4DW-ZQ7LQ4AW-TQ83296H-JAGW87AB",
+"NYANN-A5C7QEAW-V3DEC8JK-JQCZA8Y6-A58Z9MGH",
+"NYANN-93W28U4M-EFH4K7FT-UUB9BDAM-M4HPP5P7",
+"NYANN-65AXZHF9-LG56BMGP-U93VXWNZ-AQB5VKS6",
+"NYANN-X8GV2592-C3T24F9K-4QBJFTM5-SMUACS93",
+"NYANN-3MGEE5UV-ZF62S25C-36P2AQ8T-VQNPEDTR",
+"NYANN-BGXSVN48-RH6JAZD2-SNQHW5XQ-4PWGF8L6",
+"NYANN-9PHWJ99N-5K2WBMUY-JJ46R53Z-W2KSPMFM",
+"NYANN-FWFFWARQ-JGN9AR7Y-PKHYF6J7-Y36FLF5T",
+
+"NYANN-H6CQVY4A-H5PQ72RK-S6ZW5D2G-JETUGU63",
+"NYANN-ZPNF4SHR-QYLVKX55-LFEZAQPN-3X6B56KQ",
+"NYANN-BPK7KSZ5-ZECHNLQ4-WMPQMF46-G9WAYTQ9",
+"NYANN-8FN8MPGF-5JU4KWX9-QFJA775S-VZEJ3JVC",
+"NYANN-RTD2NSNX-9HQ2DSHY-2Y4VAVGT-YL33CHZW",
+"NYANN-FYHGT64M-VWYYJQMR-EFYM6FS6-S5QVRNA5",
+"NYANN-KLJN2SWC-XJQW24SV-6PV62Y2T-YU5BDEG2",
+"NYANN-RKSXFQ28-GBR9BJZ2-GBAZG6WM-DXTUQCTQ",
+"NYANN-3GWU5VS9-C8JCBDPD-7PUWEMN4-S3SCDWWN",
+"NYANN-M4BB2LFK-98C5CQPK-A2UJH48Y-48LRMFDK",
+
+"NYANN-TXY4VNQC-GLE4R6EU-8R76ZKGW-5KUQH95J",
+"NYANN-5JGU4PEG-8Q4ESMFH-7DXGRU3U-83ZQ545E",
+"NYANN-UAJXRLHA-AZCW9W8C-NXR6UTE4-N92FBBLN",
+"NYANN-JX6KRGX6-LSCYZ2VV-YD86TMHX-2XMFJKWP",
+"NYANN-Q6E76V6S-FAV95VHR-2ZPYEZH9-4MQR29H7",
+"NYANN-YT2AQCVR-F7RCWBUX-EAZK57FL-ZY34SM6F",
+"NYANN-H2LFMW35-FSPZVTGE-KT8633CL-HMD8FJYV",
+"NYANN-HVEHZQGM-WE5DT4HF-ZCQ7YFLC-FA9W7XKD",
+"NYANN-C4HXTAHV-9M2V9XN7-FQA3DTQ6-Q4G3CD3A",
+"NYANN-WZ5RANBX-LRVEXD58-PB25VAZT-JR2E7DS8",
+
+"NYANN-MTSDZ4L8-XQSGXQXG-HQCMBE9F-S4GBNQHT",
+"NYANN-UWK3AAQD-DXU2HC85-XQMH98NF-2XYE3P6Q",
+"NYANN-YKF46VZW-5EVC3GK4-BU9N2CQC-92W9LN9P",
+"NYANN-3CL8XWZM-Q8UY7KHC-5E2U2REN-YJ56TLSF",
+"NYANN-54C4EZFM-K8FCZ8FZ-H3XB9NEN-L6C5FE4R",
+"NYANN-CFMXRNXL-2REVHQDX-J85F2ZXL-9FB6KBVA",
+"NYANN-JDTVD87X-DF4E8QZ4-PRT3XLT7-7FU93XQB",
+"NYANN-6HZASQ9Q-G47M863X-LVVA6KGC-8ZBSZR5N",
+"NYANN-ZCUJZV4W-E5W3W5QG-4TEUE2HA-LL4AHEWE",
+"NYANN-SYGM7M22-GZC4EQ2D-DFN4HWFL-RDKNSHVB",
+
+"NYANN-FSCSKSJE-23RUZMCV-6WJLJD54-CDVBFB8L",
+"NYANN-GV25M2S7-UDQSG8GT-QKWU3BR6-X5EAZENQ",
+"NYANN-NBURR3BK-QSVZJLMX-AGET77LJ-UD3CU6FY",
+"NYANN-G9CSMHT2-56EH3LBZ-Q74ESQUX-Z4YXQGZJ",
+"NYANN-9RPYMF65-Y8BT5L3J-CWPU83ZQ-Z7TDR5CH",
+"NYANN-6FY7K9NE-WVBB36FQ-VY5BDDSM-MSZVNZ92",
+"NYANN-YGF9SPWG-U9ATY6Q7-AAHZBSMM-S7UKJHA3",
+"NYANN-5H8M4VXF-5XE2JBVT-LDSDHRDK-CA269F2Z",
+"NYANN-2V2UUVYF-KF8ABWS6-F9XL9UMZ-9FHWLJV4",
+"NYANN-7VJQDH5S-6P935SVW-KG5LK55S-8DHZ57M7",
+
+"NYANN-RC8A9YA9-RHCVXY4S-JAQMBAKA-LR2FFPF5",
+"NYANN-277CKZ7U-XUKWTB63-ZVN2JQ74-HF4KXD8N",
+"NYANN-7UKCZUGU-E8YVUFZZ-EVZ7RFDQ-2ND9VJL9",
+"NYANN-N3BB9ALW-QHMMH3UP-MW74CGPK-PWWVDNTA",
+"NYANN-QP9LZNNP-YWT7FSD5-9AM68RLB-L4P7PQSB",
+"NYANN-P6RCD6TB-MB2BS4D5-A7ULAC98-3H7LC7VP",
+"NYANN-8JTW4DTA-YCWDUDS3-F2K3ALN6-FR4ALNFH",
+"NYANN-9SZCEB6B-ZK9RDEKB-HB7F3J68-X2P7GH6Y",
+"NYANN-6ZQD3MXN-X9YWQ26A-FZQL8VV4-9DRTZAEL",
+"NYANN-HC8EFYEL-YNC48LNB-4YNAGUZ9-FUTBU4Z9",
+
+"NYANN-EQLYBZZ5-USKSBZFW-E8RJRLXM-Y688P287",
+"NYANN-DE5RNVDP-6G6LUKBN-F27NWE3W-TB34EA26",
+"NYANN-GFYH267U-JEQ3TAWL-9FZM8X4W-LXQPSU8R",
+"NYANN-BNKEQYW8-45TVVUYT-JBN9XZ3J-G9SKNGZW",
+"NYANN-6KUW3BJH-WRPKQCSL-SZLAQ99Z-Q54NK9F2",
+"NYANN-W552PS86-RBJEZHM2-QBYAC7XQ-UD4CBDYY",
+"NYANN-ZK9S28GD-JS7US7NV-PN9D86M6-WRA3BYKF",
+"NYANN-KTBQMMUE-PWKWXBKZ-2S8J69WC-QDTQFU7D",
+"NYANN-C88VU5JE-4MHNNT43-KJTM2EER-QXYWRCNQ",
+"NYANN-N5YWGGG5-HBUZUAQR-5SX8M5L7-JSPKZF9Z",
+"NYANN-7FS9KSV9-N8AJKZVQ-4N67WVQ3-AVQA3LV9"
+
+];
+
+
+/* ==================================================
+   KIỂM TRA SỐ LƯỢNG KEY
+================================================== */
+
+console.log(
+    "NYANN KEY COUNT:",
+    Keys.length
+);
+
+
+/* ==================================================
+   CHỮ N BAY
+================================================== */
+
+function createFloatingNs(){
+
+    const fragment =
+        document.createDocumentFragment();
+
+    for(let i = 0; i < 100; i++){
+
+        const n =
+            document.createElement("div");
+
+        n.className =
+            "floating-n";
+
+        n.textContent =
+            "N";
+
+        n.style.fontSize =
+            (14 + Math.random() * 26) + "px";
+
+        n.style.left =
+            Math.random() * 100 + "%";
+
+        n.style.animationDelay =
+            Math.random() * 15 + "s";
+
+        n.style.animationDuration =
+            (12 + Math.random() * 8) + "s";
+
+        fragment.appendChild(n);
+    }
+
+    document.body.appendChild(fragment);
+}
+
+
+/* ==================================================
+   TOAST
+================================================== */
+
+let toastTimer = null;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    if(!toast){
+        return;
+    }
+
+    toast.innerText =
+        message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+        setTimeout(function(){
+
+            toast.classList.remove("show");
+
+        },2000);
+}
+
+
+/* ==================================================
+   HIỆN KEY
+================================================== */
+
+function showKey(key){
+
+    const keyText =
+        document.getElementById("keyText");
+
+    const keyBox =
+        document.getElementById("keyBox");
+
+    if(!keyText || !keyBox){
+        return;
+    }
+
+    keyText.textContent =
+        key;
+
+    keyBox.style.display =
+        "block";
+}
+
+
+/* ==================================================
+   GET KEY
+================================================== */
+
+function getKey(){
+
+    if(!Array.isArray(Keys) ||
+       Keys.length === 0){
+
+        showToast(
+            "✕ KEY LIST EMPTY"
+        );
+
+        return;
+    }
+
+    const randomIndex =
+        Math.floor(
+            Math.random() *
+            Keys.length
+        );
+
+    const randomKey =
+        Keys[randomIndex];
+
+    if(!randomKey){
+
+        showToast(
+            "✕ KEY ERROR"
+        );
+
+        return;
+    }
+
+    showKey(randomKey);
+
+    /*
+       Lưu key hiện tại để khi reload
+       trang vẫn giữ lại key.
+    */
+    try{
+
+        localStorage.setItem(
+            "NYANN_CURRENT_KEY",
+            randomKey
+        );
+
+    }catch(error){
+
+        console.warn(
+            "LocalStorage unavailable:",
+            error
+        );
+    }
+
+    showToast(
+        "✓ KEY GENERATED"
+    );
+}
+
+
+/* ==================================================
+   COPY KEY
+================================================== */
+
+async function copyKey(){
+
+    const keyText =
+        document.getElementById("keyText");
+
+    const button =
+        document.getElementById(
+            "copyKeyButton"
+        );
+
+    if(!keyText){
+
+        showToast(
+            "✕ KEY ELEMENT ERROR"
+        );
+
+        return;
+    }
+
+    const key =
+        keyText.textContent.trim();
+
+    if(!key){
+
+        showToast(
+            "✕ NO KEY"
+        );
+
+        return;
+    }
+
+
+    /*
+       CLIPBOARD API
+    */
+
+    try{
+
+        if(
+            navigator.clipboard &&
+            typeof navigator.clipboard.writeText ===
+            "function"
+        ){
+
+            await navigator.clipboard.writeText(
+                key
+            );
+
+            button.innerText =
+                "COPIED ✓";
+
+            showToast(
+                "✓ KEY COPIED"
+            );
+
+            setTimeout(function(){
+
+                button.innerText =
+                    "COPY KEY";
+
+            },1500);
+
+            return;
+        }
+
+    }catch(error){
+
+        console.warn(
+            "Clipboard API failed:",
+            error
+        );
+    }
+
+
+    /*
+       FALLBACK COPY
+       Hoạt động tốt hơn khi mở
+       file HTML trực tiếp.
+    */
+
+    try{
+
+        const textarea =
+            document.createElement(
+                "textarea"
+            );
+
+        textarea.value =
+            key;
+
+        textarea.setAttribute(
+            "readonly",
+            ""
+        );
+
+        textarea.style.position =
+            "fixed";
+
+        textarea.style.top =
+            "0";
+
+        textarea.style.left =
+            "-10000px";
+
+        textarea.style.width =
+            "1px";
+
+        textarea.style.height =
+            "1px";
+
+        textarea.style.opacity =
+            "0";
+
+        textarea.style.pointerEvents =
+            "none";
+
+        document.body.appendChild(
+            textarea
+        );
+
+        textarea.focus();
+
+        textarea.select();
+
+        textarea.setSelectionRange(
+            0,
+            textarea.value.length
+        );
+
+        const success =
+            document.execCommand(
+                "copy"
+            );
+
+        textarea.remove();
+
+        if(success){
+
+            button.innerText =
+                "COPIED ✓";
+
+            showToast(
+                "✓ KEY COPIED"
+            );
+
+            setTimeout(function(){
+
+                button.innerText =
+                    "COPY KEY";
+
+            },1500);
+
+            return;
+        }
+
+    }catch(error){
+
+        console.warn(
+            "Fallback copy failed:",
+            error
+        );
+    }
+
+
+    /*
+       CUỐI CÙNG:
+       TỰ CHỌN KEY ĐỂ USER COPY THỦ CÔNG.
+    */
+
+    try{
+
+        const selection =
+            window.getSelection();
+
+        const range =
+            document.createRange();
+
+        range.selectNodeContents(
+            keyText
+        );
+
+        selection.removeAllRanges();
+
+        selection.addRange(
+            range
+        );
+
+        showToast(
+            "⚠ KEY ĐÃ ĐƯỢC CHỌN — COPY THỦ CÔNG"
+        );
+
+    }catch(error){
+
+        showToast(
+            "✕ COPY FAILED"
+        );
+    }
+}
+
+
+/* ==================================================
+   BUTTON EVENTS
+================================================== */
+
+document
+    .getElementById("getKeyButton")
+    .addEventListener(
+        "click",
+        getKey
+    );
+
+
+document
+    .getElementById("copyKeyButton")
+    .addEventListener(
+        "click",
+        copyKey
+    );
+
+
+/* ==================================================
+   LOAD
+================================================== */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        createFloatingNs();
+
+        /*
+           Khôi phục key cũ nếu có.
+        */
+
+        try{
+
+            const savedKey =
+                localStorage.getItem(
+                    "NYANN_CURRENT_KEY"
+                );
+
+            if(
+                savedKey &&
+                Keys.includes(savedKey)
+            ){
+
+                showKey(
+                    savedKey
+                );
+
+            }
+
+        }catch(error){
+
+            console.warn(
+                "Could not load saved key:",
+                error
+            );
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
